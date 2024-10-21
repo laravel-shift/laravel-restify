@@ -419,7 +419,7 @@ POST: api/restify/users/{id}/detach/posts
  * @param Post $model
  * @return mixed
  */
-public function attachPost(User $user, Post $model)
+public function detachPost(User $user, Post $model)
 {
     return $user->is($model->creator()->first());
 }
