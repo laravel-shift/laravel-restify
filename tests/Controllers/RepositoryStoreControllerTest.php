@@ -62,7 +62,7 @@ class RepositoryStoreControllerTest extends IntegrationTestCase
         $this->assertModelExists($post);
     }
 
-    public function test_will_store_only_defined_fields_from_fieldsForStore(): void
+    public function test_will_store_only_defined_fields_from_fields_for_store(): void
     {
         $user = $this->mockUsers()->first();
 

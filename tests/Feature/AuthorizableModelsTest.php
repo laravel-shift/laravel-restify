@@ -31,7 +31,7 @@ class AuthorizableModelsTest extends IntegrationTestCase
         Cache::flush();
     }
 
-    public function test_can_cache_allowRestify_policy_so_its_called_once_per_user(): void
+    public function test_can_cache_allow_restify_policy_so_its_called_once_per_user(): void
     {
         $this->partialMock(PostPolicy::class)
             ->shouldReceive('allowRestify')
