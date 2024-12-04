@@ -115,6 +115,8 @@ class Field extends OrganicField implements JsonSerializable
      */
     protected $valueCallback;
 
+    protected $fillDefaultCallback;
+
     /**
      * Closure be used to be called after the field value stored.
      */
@@ -206,6 +208,22 @@ class Field extends OrganicField implements JsonSerializable
     }
 
     /**
+     * This is called after the fill and store callbacks.
+     *
+     * You can pass a callable or a value, and it will be attached to the model if no value provided otherwise.
+     *
+     * Imagine it's like `attributes` in the model.
+     *
+     * @return $this
+     */
+    public function defaultCallback(mixed $callback)
+    {
+        $this->defaultCallback = $callback;
+
+        return $this;
+    }
+
+    /**
      * Fill attribute with value from the request or delegate this action to the user defined callback.
      *
      * @return mixed|void
@@ -244,6 +262,12 @@ class Field extends OrganicField implements JsonSerializable
             $model,
             $this->label ?? $this->attribute,
             $bulkRow
+        );
+
+        $this->fillAttributeFromDefault(
+            $request,
+            $model,
+            $this->label ?? $this->attribute
         );
 
         $this->fillAttributeFromValue(
@@ -306,6 +330,23 @@ class Field extends OrganicField implements JsonSerializable
         $model->{$attribute} = is_callable($this->valueCallback)
             ? call_user_func($this->valueCallback, $request, $model, $attribute)
             : $this->valueCallback;
+
+        return $this;
+    }
+
+    protected function fillAttributeFromDefault(RestifyRequest $request, $model, $attribute)
+    {
+        if ($model->{$attribute}) {
+            return $this;
+        }
+
+        if (! isset($this->fillDefaultCallback)) {
+            return $this;
+        }
+
+        $model->{$attribute} = is_callable($this->fillDefaultCallback)
+            ? call_user_func($this->fillDefaultCallback, $request, $model, $attribute)
+            : $this->fillDefaultCallback;
 
         return $this;
     }
