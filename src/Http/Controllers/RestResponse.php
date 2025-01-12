@@ -261,7 +261,7 @@ class RestResponse extends JsonResponse implements Responsable
                 }
             }
 
-            //according with https://jsonapi.org/format/#document-top-level these fields should be in data:
+            // according with https://jsonapi.org/format/#document-top-level these fields should be in data:
             foreach (['attributes', 'relationships', 'type', 'id'] as $item) {
                 if (isset($this->{$item})) {
                     $response->data->{$item} = $this->{$item};
@@ -414,7 +414,7 @@ class RestResponse extends JsonResponse implements Responsable
 
     public static function beforeRespond($response)
     {
-        //The members data and errors MUST NOT coexist in the same document. - https://jsonapi.org/format/#introduction
+        // The members data and errors MUST NOT coexist in the same document. - https://jsonapi.org/format/#introduction
         if (isset($response->errors)) {
             unset($response->data);
 

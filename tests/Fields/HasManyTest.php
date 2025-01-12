@@ -320,7 +320,7 @@ class HasManyTest extends IntegrationTestCase
     {
         $userId = $this->mockUsers()->first()->id;
         $this->postJson(UserWithPosts::route("/{$userId}/posts"), [
-            /*'title' => 'Wew',*/
+            /* 'title' => 'Wew', */
         ])->assertStatus(422);
     }
 }

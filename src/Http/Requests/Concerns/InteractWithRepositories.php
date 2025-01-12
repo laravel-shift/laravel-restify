@@ -110,7 +110,7 @@ trait InteractWithRepositories
         $parentRepository = $this->route('parentRepository');
         $parentRepositoryId = $this->route('parentRepositoryId');
 
-        //TODO: Find another implementation for prefixes:
+        // TODO: Find another implementation for prefixes:
         $matchSomePrefixes = collect(Restify::$repositories)->some(fn (
             $repository
         ) => $repository::prefix() === "$parentRepository/$parentRepositoryId");
