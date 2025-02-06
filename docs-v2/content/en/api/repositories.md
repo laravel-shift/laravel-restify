@@ -819,3 +819,14 @@ public static $withs = ['posts'];
 `withs` is not a typo. Laravel uses the `with` property on models, on repositories we use `$withs`, it's not a typo.
 
 </alert>
+
+## Group by
+
+The group by filter is useful when you want to group the results by a certain column.
+
+```php
+class PostRepository extends Repository
+{
+    public static array $groupBy = ['user_id'];
+}
+```

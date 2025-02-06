@@ -77,4 +77,9 @@ class RestifyRequest extends FormRequest
             ? $this->input('filters', [])
             : (json_decode(base64_decode($this->input('filters')), true) ?? []);
     }
+
+    public function groupBy(): ?string
+    {
+        return $this->input('group_by');
+    }
 }
