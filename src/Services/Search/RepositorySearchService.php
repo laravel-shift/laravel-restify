@@ -225,6 +225,7 @@ class RepositorySearchService
             return $query;
         }
 
+        $model = $query->getModel();
         $groupByColumns = explode(',', $request->input('group_by'));
 
         foreach ($groupByColumns as $column) {
@@ -235,7 +236,7 @@ class RepositorySearchService
                     implode(', ', $repository::$groupBy)
                 ));
             }
-            $query->groupBy($column);
+            $query->groupBy($model->qualifyColumn($column));
         }
 
         return $query;
