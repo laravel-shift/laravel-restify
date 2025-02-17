@@ -43,6 +43,8 @@ class RepositorySearchService
 
         $query = $this->applyFilters($request, $repository, $query);
 
+        $query = $this->applyGroupBy($request, $repository, $query);
+
         $ordersBuilder = $this->prepareOrders($request, $query);
 
         return tap(
@@ -213,6 +215,29 @@ class RepositorySearchService
                 $request->filters(),
             )
         );
+
+        return $query;
+    }
+
+    protected function applyGroupBy(RestifyRequest $request, Repository $repository, $query)
+    {
+        if (! $request->has('group_by')) {
+            return $query;
+        }
+
+        $model = $query->getModel();
+        $groupByColumns = explode(',', $request->input('group_by'));
+
+        foreach ($groupByColumns as $column) {
+            if (! in_array($column, $repository::$groupBy)) {
+                abort(422, sprintf(
+                    'The column [%s] is not allowed for grouping. Allowed columns are: %s',
+                    $column,
+                    implode(', ', $repository::$groupBy)
+                ));
+            }
+            $query->groupBy($model->qualifyColumn($column));
+        }
 
         return $query;
     }

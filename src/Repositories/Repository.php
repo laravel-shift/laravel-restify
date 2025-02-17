@@ -92,6 +92,11 @@ class Repository implements JsonSerializable, RestifySearchable
     public static array $sort;
 
     /**
+     * The list of fields that can be used for grouping.
+     */
+    public static array $groupBy = [];
+
+    /**
      * Attribute that should be used for displaying single model.
      */
     public static string $title = 'id';
